@@ -8,74 +8,65 @@ import {
   HiOutlinePhotograph,
   HiOutlineUserGroup,
 } from "react-icons/hi";
-import {
-  useGetBackgroundColorQuery,
-  useGetTopArtistsQuery,
-} from "../redux/services/shazamCore";
 const links = [
   { name: "Top Artists", to: "/", icon: HiOutlineUserGroup },
   { name: "Explore", to: "/explore", icon: HiOutlineMenu },
   { name: "Top Charts", to: "/top-charts", icon: HiOutlineHashtag },
 ];
 
-const NavBar = () => {
-  const [artistId, setArtistId] = useState("");
-  const { data, loading, error } = useGetTopArtistsQuery();
-  useEffect(() => {
-    setArtistId((prevId) => {
-      if (data?.tracks && data?.tracks.length > 0)
-        prevId = data.tracks[0].artists[0]?.adamid;
-      return prevId;
-    });
-  }, [data]);
-  console.log(artistId);
-  const { data: artistData, isFetching: isFetchingArtistDetails } =
-    useGetBackgroundColorQuery({ artistId });
-  const [gradientColor, setGradientColor] = useState("");
-  useEffect(() => {
-    setGradientColor((prevColor) => {
-      return artistData?.data[0].attributes?.artwork?.bgColor;
-    });
-  }, []);
+const NavBar = ({ gradientColor }) => {
+  // const [artistId, setArtistId] = useState("");
+  // const { data, loading, error } = useGetTopArtistsQuery();
+  // useEffect(() => {
+  //   if (data?.tracks && data?.tracks.length > 0) {
+  //     setArtistId(data.tracks[0].artists[0]?.adamid);
+  //   }
+  // }, [data]);
+  // if (error) {
+  //   return <div className="text-white">Error</div>;
+  // }
+  // if (loading) {
+  //   return <div className="text-white">Loading...</div>;
+  // }
+  // console.log(artistId);
+  // const { data: artistData, isFetching: isFetchingArtistDetails } =
+  //   useGetBackgroundColorQuery({ artistId });
+  // const [gradientColor, setGradientColor] = useState("");
+  // useEffect(() => {
+  //   setGradientColor(artistData?.data[0].attributes?.artwork?.bgColor);
+  // }, [gradientColor]);
+  // useEffect(() => {
+  //   if (artistData)
+  //     setGradientColor((prevColor) => {
+  //       return artistData?.data[0].attributes?.artwork?.bgColor;
+  //     });
+  // }, [artistData]);
 
   const accentColor = (gradientColor) => ({
     position: `absolute`,
     width: `1516px`,
     height: `1052px`,
     left: `-38px`,
-    top: "-800px",
-    // background: `#${gradientColor}`,
-    background: `linear-gradient( 180deg,
-    #${gradientColor} 43.52%,
-    #040404 98%)`,
-    filter: `blur(89px)`,
+    top: "-900px",
+    background: `#${gradientColor}`,
+    // background: `linear-gradient( 180deg,
+    // #${gradientColor} 43.52%,
+    // #040404 98%)`,
+    filter: `blur(100px)`,
     zIndex: `-99999`,
   });
 
   const NavLinks = ({ handleClick }) => (
     <div className={` flex flex-row  `}>
       {links.map((item) => {
-        const [isHover, setIsHover] = React.useState(false);
-        const styles = {
-          color: isHover ? `#${gradientColor}` : "white",
-        };
-        const handleMouseEnter = () => {
-          setIsHover(true);
-        };
-
-        const handleMouseLeave = () => {
-          setIsHover(false);
-        };
         return (
           <NavLink
             key={item.name}
             to={item.to}
-            className={`flex flex-row  items-center  mx-8 text-lg tracking-wider font-medium`}
+            className={`flex flex-row  items-center text-white  mx-8 text-lg tracking-wider font-medium`}
             onClick={() => handleClick && handleClick()}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
           >
-            <div style={{ ...styles }}>{item.name}</div>
+            <div>{item.name}</div>
           </NavLink>
         );
       })}

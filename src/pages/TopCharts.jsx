@@ -1,17 +1,17 @@
 import React from "react";
 import { useGetTopArtistsQuery } from "../redux/services/shazamCore";
-import { SongCard } from "../Components/index";
+import { SongCard, Loader, Error } from "../Components/index";
 import { genres } from "../assets/constant/constant";
 import { useDispatch, useSelector } from "react-redux";
 const TopCharts = () => {
   const dispatch = useDispatch();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
-  const { data, loading, error } = useGetTopArtistsQuery();
+  const { data, isFetching, error } = useGetTopArtistsQuery();
   if (error) {
-    return <div>Error</div>;
+    return <Error />;
   }
-  if (loading) {
-    return <div>Loading...</div>;
+  if (isFetching) {
+    return <Loader />;
   }
   const songCharts = data?.tracks?.slice(0, 10).map((song, i) => {
     return (

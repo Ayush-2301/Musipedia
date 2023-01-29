@@ -59,35 +59,12 @@
 //
 import React, { useEffect, useState } from "react";
 import pointer from "../assets/pointer.png";
-import {
-  useGetTopArtistsQuery,
-  useGetBackgroundColorQuery,
-} from "../redux/services/shazamCore";
-import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useGetTopArtistsQuery } from "../redux/services/shazamCore";
+import { Link } from "react-router-dom";
+import { Error, Loader } from "../Components/index";
 
 const TopArtists = () => {
-  const { data, loading, error } = useGetTopArtistsQuery();
-  const dispatch = useDispatch();
-  // const [artistId, setArtistId] = useState("");
-  // useEffect(() => {
-  //   setArtistId((prevId) => {
-  //     if (data?.tracks && data?.tracks.length > 0)
-  //       prevId = data.tracks[0].artists[0]?.adamid;
-  //     return prevId;
-  //   });
-  // }, [data]);
-  // console.log(artistId);
-  // const { data: artistData, isFetching: isFetchingArtistDetails } =
-  //   useGetBackgroundColorQuery({ artistId });
-  // const [gradientColor, setGradientColor] = useState("");
-  // useEffect(() => {
-  //   setGradientColor((prevColor) => {
-  //     return artistData?.data[0].attributes?.artwork?.bgColor;
-  //   });
-  // }, [gradientColor]);
-  // console.log(gradientColor);
-
+  const { data, isFetching, error } = useGetTopArtistsQuery();
   const pointerImage = (props) => {
     return (
       <img
@@ -99,10 +76,10 @@ const TopArtists = () => {
   };
 
   if (error) {
-    return <div>Error</div>;
+    return <Error />;
   }
-  if (loading) {
-    return <div>Loading...</div>;
+  if (isFetching) {
+    return <Loader />;
   }
 
   const artists = data?.tracks?.slice(0, 5)?.map((artist, i) => {
@@ -136,7 +113,7 @@ const TopArtists = () => {
   });
 
   return (
-    <div className="container flex flex-col mx-auto p-6   font-poppins bg-[#040404]  text-white h-[1000px]">
+    <div className="container flex flex-col mx-auto p-6  font-poppins bg-[#040404]  text-white h-[1000px]">
       <div className="flex flex-row justify-around ">
         <div className="flex flex-col ">
           <div className="text-[90px] font-[600] tracking-wider justify-start mb-[10px] leading-[135px] z-20">
@@ -148,7 +125,7 @@ const TopArtists = () => {
         </div>
         <div>
           <img
-            className="w-[400px]"
+            className="w-[400px] z-20"
             src={data?.tracks[0].images?.background}
             alt=""
           />
