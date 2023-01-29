@@ -45,13 +45,13 @@ const App = () => {
         return artistData?.data[0].attributes?.artwork?.bgColor;
       });
   }, [artistData]);
-  if (false) {
+  if (error) {
     return <Error />;
   }
-  if (false) {
+  if (isFetching) {
     return <Loader />;
   }
-  if (false) {
+  if (isFetchingArtistDetails) {
     return <Loader />;
   }
   return (
