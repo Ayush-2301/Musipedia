@@ -57,13 +57,14 @@
 //   // //   }
 //   // })
 //
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import pointer from "../assets/pointer.png";
 import { useGetTopArtistsQuery } from "../redux/services/shazamCore";
 import { Link } from "react-router-dom";
 import { Error, Loader } from "../Components/index";
+import { BiShuffle } from "react-icons/bi";
 
-const TopArtists = () => {
+const TopArtists = ({ gradientColor }) => {
   const { data, isFetching, error } = useGetTopArtistsQuery();
   const pointerImage = (props) => {
     return (
@@ -74,15 +75,16 @@ const TopArtists = () => {
       />
     );
   };
-
+  console.log(gradientColor);
   if (error) {
     return <Error />;
   }
   if (isFetching) {
     return <Loader />;
   }
-
-  const artists = data?.tracks?.slice(0, 5)?.map((artist, i) => {
+  const topFiveArtist = data?.tracks?.slice(0, 5);
+  console.log(topFiveArtist);
+  const artists = topFiveArtist?.map((artist, i) => {
     let opacityValue = {
       opacity: 1 - i / 5,
     };
@@ -94,7 +96,7 @@ const TopArtists = () => {
             i === 0
               ? "text-[52px] font-[400] px-0 leading-[78px]"
               : "text-xl font-medium font-poppins"
-          }text-xl font-medium tracking-wide flex flex-row items-center w-full  px-1`}
+          }text-xl font-medium tracking-wide flex flex-row items-center w-full `}
         >
           {i + 1}.
           <p className="hover:underline">
@@ -111,10 +113,18 @@ const TopArtists = () => {
       </div>
     );
   });
-
+  // const figradient
+  const EllipseColor = (gradientColor) => ({
+    width: `300px`,
+    height: `300px`,
+    background: `radial-gradient(41.09% 41.09% at 50% 50%,#${gradientColor} 0%,rgba(217, 217, 217, 0) 100%)`,
+  });
+  const btnBorder = (gradientColor) => ({
+    borderColor: `#${gradientColor}`,
+  });
   return (
-    <div className="container flex flex-col mx-auto p-6  font-poppins bg-[#040404]  text-white h-[1000px]">
-      <div className="flex flex-row justify-around ">
+    <div className="container flex flex-col gap-y-5 mx-[200px] p-6  font-poppins bg-[#040404]  text-white h-[1000px] ">
+      <div className="flex flex-row justify-between mb-10  ">
         <div className="flex flex-col ">
           <div className="text-[90px] font-[600] tracking-wider justify-start mb-[10px] leading-[135px] z-20">
             Top Artists
@@ -125,18 +135,43 @@ const TopArtists = () => {
         </div>
         <div>
           <img
-            className="w-[400px] z-20"
+            className="w-[400px] h-[400px] z-20 artistImage"
             src={data?.tracks[0].images?.background}
             alt=""
           />
         </div>
       </div>
-      <div
-        className={`border-2 border-solid ml-[200px] justify-center items-center border-white rounded-2xl p-3 flex w-[25%]  `}
-      >
-        <span className="font-semibold text-xl font-poppins text-center">
-          Play Something
-        </span>
+      <div>
+        <div
+          className={`border-[4px] border-solid  justify-center items-center rounded-full p-4 py-2 flex w-[30%] z-20`}
+          style={btnBorder(gradientColor)}
+        >
+          <span className="font-bold text-3xl mr-2 font-poppins tracking-wide text-center z-20">
+            Play Something
+          </span>
+          <BiShuffle
+            size={40}
+            style={{ color: `#${gradientColor}` }}
+            onClick={() => {}}
+          />
+        </div>
+      </div>
+      <div className="relative">
+        <div
+          className="absolute top-[-120px] mix-blend-screen right-[-100px] z-10 blur-[60px]"
+          style={EllipseColor(gradientColor)}
+        ></div>
+        <div
+          className="absolute  top-[-120px] mix-blend-screen left-[-120px] z-10 blur-[60px]"
+          style={EllipseColor(gradientColor)}
+        ></div>
+      </div>
+      <div className="flex flex-col text-6xl font-poppins font-extrabold h-[270px] bg-gray-400 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 z-20 p-6 space-y-3 justify-center tracking-wide leading-[65px]">
+        <div>Play, Create &</div>
+        <div>Explore</div>
+        <div>
+          The World of <span style={{ color: `#${gradientColor}` }}>Music</span>
+        </div>
       </div>
     </div>
   );

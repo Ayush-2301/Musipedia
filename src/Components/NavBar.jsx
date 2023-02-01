@@ -46,7 +46,7 @@ const NavBar = ({ gradientColor }) => {
     position: `absolute`,
     width: `1516px`,
     height: `1052px`,
-    left: `-38px`,
+    left: `0px`,
     top: "-900px",
     background: `#${gradientColor}`,
     // background: `linear-gradient( 180deg,

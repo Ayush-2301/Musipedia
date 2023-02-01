@@ -11,6 +11,7 @@ import SongBar from "./SongBar";
 import SongCard from "./SongCard";
 import TopPlay from "./TopPlay";
 import MusicPlayer from "./MusicPlayer";
+import Footer from "./Footer";
 export {
   NavBar,
   ArtistCard,
@@ -25,4 +26,5 @@ export {
   SongCard,
   TopPlay,
   MusicPlayer,
+  Footer,
 };

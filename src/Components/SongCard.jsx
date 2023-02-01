@@ -24,13 +24,13 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
           <div className="mx-2">{i + 1}. </div>
           <div className="">
             <img
-              src={song?.images.coverarthq}
+              src={song.images?.coverarthq}
               alt=""
               className="w-[60px] mx-2"
             />
           </div>
           <div className="ml-4">
-            <Link to={`/songs.${song?.key}`}>{song.title}</Link>
+            <Link to={`/songs/${song?.key}`}>{song.title}</Link>
           </div>
         </div>
         <div className="mr-2 text-gray-400 w-full text-center">

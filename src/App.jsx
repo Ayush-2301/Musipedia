@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import {
   Searchbar,
   NavBar,
   MusicPlayer,
   TopPlay,
+  Footer,
   Loader,
   Error,
 } from "./Components/index";
@@ -54,21 +55,43 @@ const App = () => {
   if (isFetchingArtistDetails) {
     return <Loader />;
   }
+  // const [pathname, setPathname] = useState(window.location.pathname);
+  // useEffect(() => {
+  //   const handleLocationChange = () => {
+  //     setPathname(window.location.pathname);
+  //   };
+  //   window.addEventListener("popstate", handleLocationChange);
+  //   return () => {
+  //     window.removeEventListener("popstate", handleLocationChange);
+  //   };
+  // }, [window.location.pathname]);
   return (
     <div className="relative flex flex-col bg-[#040404] ">
-      <NavBar gradientColor={gradientColor} />
+      {!window.location.pathname.startsWith("/artists/:id") ||
+      !window.location.pathname.startsWith("/songs/:songid") ? (
+        <NavBar gradientColor={gradientColor} />
+      ) : null}
+
       <div className="flex flex-row justify-between ">
         <Routes>
-          <Route path="/" element={<TopArtists />} />
+          <Route
+            path="/"
+            element={<TopArtists gradientColor={gradientColor} />}
+          />
           <Route path="/top-charts" element={<TopCharts />} />
           <Route path="/explore" element={<Explore />} />
-          {/* <Route path="/around-you" element={<AroundYou />} /> */}
-          {/* <Route path="/artists/:id" element={<ArtistDetails />} /> */}
+          <Route path="/artists/:id" element={<ArtistDetails />} />
           <Route path="/songs/:songid" element={<SongDetails />} />
+          {/* <Route path="/around-you" element={<AroundYou />} /> */}
           <Route path="/search/:searchTerm" element={<Search />} />{" "}
         </Routes>
       </div>
       {/* <Searchbar /> */}
+      {window.location.pathname !== "/artists/:id" &&
+      window.location.pathname !== "/songs/:songid" ? (
+        <Footer gradientColor={gradientColor} />
+      ) : null}
+
       {activeSong?.title && (
         <div className="fixed  h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 backdrop-blur-lg  z-30">
           <MusicPlayer />
