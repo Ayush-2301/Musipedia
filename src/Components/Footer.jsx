@@ -1,6 +1,7 @@
 import React from "react";
-
-const Footer = ({ gradientColor }) => {
+import { useSelector } from "react-redux";
+const Footer = () => {
+  const gradientColor = useSelector((state) => state.color.gradientColor);
   const accentColor = (gradientColor) => ({
     position: `absolute`,
     width: `100%`,
@@ -25,7 +26,9 @@ const Footer = ({ gradientColor }) => {
   ];
   return (
     <div className="flex relative h-[200px] w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 bg-gray-600 text-white  font-poppins z-20 rounded-t-[60px] ">
-      <div style={accentColor(gradientColor)}> </div>
+      <div className="-z-30" style={accentColor(gradientColor)}>
+        {" "}
+      </div>
       <div className="container mx-[200px] p-6  flex flex-row justify-between mt-2">
         <div>
           <div className="font-poppins text-[25px] font-semibold tracking-wide mb-3">

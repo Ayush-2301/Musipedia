@@ -6,7 +6,7 @@ export const shazamCoreApi = createApi({
     prepareHeaders: (headers) => {
       headers.set(
         "X-RapidAPI-Key",
-        "255e515f27msh41ac6839c3e9f4dp1948fejsn7abe8b13ea98"
+        "a3a9d2e173msh2ebaedc71a8e13cp145b85jsn7752eacd74cc"
       );
       return headers;
     },
@@ -16,9 +16,15 @@ export const shazamCoreApi = createApi({
       query: () => "/charts/track",
     }),
     getBackgroundColor: builder.query({
-      query: ({ artistId }) => `/artists/get-details?id=${artistId}&l=en-US`,
+      query: (artistId) => `/artists/get-details?id=${artistId}&l=en-US`,
+    }),
+    getShazamSearch: builder.query({
+      query: (name) => `/search?term=${name}&locale=en-US&offset=0&limit=1`,
     }),
   }),
 });
-export const { useGetTopArtistsQuery, useGetBackgroundColorQuery } =
-  shazamCoreApi;
+export const {
+  useGetTopArtistsQuery,
+  useGetBackgroundColorQuery,
+  useGetShazamSearchQuery,
+} = shazamCoreApi;

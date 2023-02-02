@@ -59,13 +59,26 @@
 //
 // import React, { useEffect, useState } from "react";
 import pointer from "../assets/pointer.png";
-import { useGetTopArtistsQuery } from "../redux/services/shazamCore";
+import {
+  useGetTopArtistsQuery,
+  useGetBackgroundColorQuery,
+} from "../redux/services/shazamCore";
 import { Link } from "react-router-dom";
 import { Error, Loader } from "../Components/index";
 import { BiShuffle } from "react-icons/bi";
-
-const TopArtists = ({ gradientColor }) => {
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setGradientColor } from "../redux/features/colorSlice";
+import { useGetGeniusTopChartsQuery } from "../redux/services/geniusCore";
+const TopArtists = () => {
+  // const gradientColor = "183659";
   const { data, isFetching, error } = useGetTopArtistsQuery();
+  const {
+    data: g_topArtistData,
+    isFetching: g_isFetching,
+    error: g_error,
+  } = useGetGeniusTopChartsQuery();
   const pointerImage = (props) => {
     return (
       <img
@@ -75,21 +88,44 @@ const TopArtists = ({ gradientColor }) => {
       />
     );
   };
-  console.log(gradientColor);
   if (error) {
     return <Error />;
   }
   if (isFetching) {
     return <Loader />;
   }
+
+  const [artistId, setArtistId] = useState("");
+  useEffect(() => {
+    if (data?.tracks && data?.tracks.length > 0) {
+      setArtistId(data.tracks[0].artists[0]?.adamid);
+    }
+  }, [data]);
+  const { data: artistData2, isFetching: isFetchingArtistDetails2 } =
+    useGetBackgroundColorQuery(artistId);
+  const [gradientColor, setGradient] = useState("");
+  useEffect(() => {
+    if (artistData2)
+      setGradient((prevColor) => {
+        return artistData2?.data[0]?.attributes?.artwork?.bgColor;
+      });
+  }, [artistData2]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const color = artistData2?.data[0]?.attributes?.artwork?.bgColor;
+    console.log(color);
+    dispatch(setGradientColor(color));
+  }, [artistData2, dispatch]);
+  // -----------------------------------------------
   const topFiveArtist = data?.tracks?.slice(0, 5);
-  console.log(topFiveArtist);
-  const artists = topFiveArtist?.map((artist, i) => {
+  const g_topFiveArtist = g_topArtistData?.chart_items.slice(0, 5);
+  const artists = g_topFiveArtist?.map((artist, i) => {
     let opacityValue = {
       opacity: 1 - i / 5,
     };
     return (
-      <div key={artist.key} className="flex flex-row w-full items-center z-20">
+      <div key={i} className="flex flex-row w-full items-center z-20">
         <div
           style={opacityValue}
           className={`${
@@ -101,11 +137,9 @@ const TopArtists = ({ gradientColor }) => {
           {i + 1}.
           <p className="hover:underline">
             <Link
-              to={
-                artist.artists ? `/artists/${artist?.artists[0]?.adamid}` : "/"
-              }
+              to={artist.item ? `/artists/${artist?.item?.artist_names}` : "/"}
             >
-              {artist.subtitle}
+              {artist?.item?.artist_names}
             </Link>
           </p>
           {i === 0 ? pointerImage(true) : pointerImage(false)}
@@ -113,7 +147,6 @@ const TopArtists = ({ gradientColor }) => {
       </div>
     );
   });
-  // const figradient
   const EllipseColor = (gradientColor) => ({
     width: `300px`,
     height: `300px`,
@@ -135,8 +168,10 @@ const TopArtists = ({ gradientColor }) => {
         </div>
         <div>
           <img
-            className="w-[400px] h-[400px] z-20 artistImage"
-            src={data?.tracks[0].images?.background}
+            className="w-[400px] h-[400px] z-20  rounded-lg"
+            src={
+              g_topArtistData?.chart_items[0]?.item?.primary_artist?.image_url
+            }
             alt=""
           />
         </div>
@@ -178,3 +213,27 @@ const TopArtists = ({ gradientColor }) => {
 };
 
 export default TopArtists;
+// const [firstArtistId, setFirstArtistId] = useState("");
+// useEffect(() => {
+//   setFirstArtistId(topFiveArtistId[0]);
+// }, [data]);
+// // const firstArtistId = topFiveArtistId[0];
+// console.log(typeof firstArtistId, firstArtistId);
+// const { data: artistData1, isFetching: isFetchingArtistDetails1 } =
+//   useGetBackgroundColorQuery({ firstArtistId });
+// console.log(artistData1);
+
+// ---Don't touch this code this for future upgradation in the layout (it create a array of artist id then the further stuff is fucked)----------
+// ----------------------------------------------------------------
+// const topFiveArtistId = topFiveArtist.map((obj) => {
+//   if (obj?.artists === undefined) {
+//     return "000000";
+//   } else {
+//     const newObj = obj?.artists[0]?.adamid;
+//     return newObj;
+//   }
+// });
+// console.log(topFiveArtist);
+// console.log(topFiveArtistId);
+// const filteredArray = topFiveArtistId.filter((val) => val !== "000000");
+// console.log(filteredArray);

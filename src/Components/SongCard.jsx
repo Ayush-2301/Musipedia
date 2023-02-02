@@ -30,13 +30,11 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
             />
           </div>
           <div className="ml-4">
-            <Link to={`/songs/${song?.key}`}>{song.title}</Link>
+            <Link to={`/songs/${song?.share?.subject}`}>{song.title}</Link>
           </div>
         </div>
         <div className="mr-2 text-gray-400 w-full text-center">
-          <Link
-            to={song.artists ? `/artists/${song?.artists[0]?.adamid}` : "/"}
-          >
+          <Link to={song.artists ? `/artists/${song?.subtitle}` : "/"}>
             {song.subtitle}
           </Link>
         </div>

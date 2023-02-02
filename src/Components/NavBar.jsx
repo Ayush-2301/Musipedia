@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 import logo from "../assets/logo.png";
 import {
   HiOutlineHashtag,
@@ -14,34 +15,8 @@ const links = [
   { name: "Top Charts", to: "/top-charts", icon: HiOutlineHashtag },
 ];
 
-const NavBar = ({ gradientColor }) => {
-  // const [artistId, setArtistId] = useState("");
-  // const { data, loading, error } = useGetTopArtistsQuery();
-  // useEffect(() => {
-  //   if (data?.tracks && data?.tracks.length > 0) {
-  //     setArtistId(data.tracks[0].artists[0]?.adamid);
-  //   }
-  // }, [data]);
-  // if (error) {
-  //   return <div className="text-white">Error</div>;
-  // }
-  // if (loading) {
-  //   return <div className="text-white">Loading...</div>;
-  // }
-  // console.log(artistId);
-  // const { data: artistData, isFetching: isFetchingArtistDetails } =
-  //   useGetBackgroundColorQuery({ artistId });
-  // const [gradientColor, setGradientColor] = useState("");
-  // useEffect(() => {
-  //   setGradientColor(artistData?.data[0].attributes?.artwork?.bgColor);
-  // }, [gradientColor]);
-  // useEffect(() => {
-  //   if (artistData)
-  //     setGradientColor((prevColor) => {
-  //       return artistData?.data[0].attributes?.artwork?.bgColor;
-  //     });
-  // }, [artistData]);
-
+const NavBar = () => {
+  const gradientColor = useSelector((state) => state.color.gradientColor);
   const accentColor = (gradientColor) => ({
     position: `absolute`,
     width: `1516px`,
@@ -49,9 +24,6 @@ const NavBar = ({ gradientColor }) => {
     left: `0px`,
     top: "-900px",
     background: `#${gradientColor}`,
-    // background: `linear-gradient( 180deg,
-    // #${gradientColor} 43.52%,
-    // #040404 98%)`,
     filter: `blur(100px)`,
     zIndex: `-99999`,
   });
@@ -131,3 +103,30 @@ export default NavBar;
 //     {/* <NavLinks handleClick={() => setMobileMenuOpen(false)} /> */}
 //   </div>
 // </>
+
+// const [artistId, setArtistId] = useState("");
+// const { data, loading, error } = useGetTopArtistsQuery();
+// useEffect(() => {
+//   if (data?.tracks && data?.tracks.length > 0) {
+//     setArtistId(data.tracks[0].artists[0]?.adamid);
+//   }
+// }, [data]);
+// if (error) {
+//   return <div className="text-white">Error</div>;
+// }
+// if (loading) {
+//   return <div className="text-white">Loading...</div>;
+// }
+// console.log(artistId);
+// const { data: artistData, isFetching: isFetchingArtistDetails } =
+//   useGetBackgroundColorQuery({ artistId });
+// const [gradientColor, setGradientColor] = useState("");
+// useEffect(() => {
+//   setGradientColor(artistData?.data[0].attributes?.artwork?.bgColor);
+// }, [gradientColor]);
+// useEffect(() => {
+//   if (artistData)
+//     setGradientColor((prevColor) => {
+//       return artistData?.data[0].attributes?.artwork?.bgColor;
+//     });
+// }, [artistData]);

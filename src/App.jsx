@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Route, Routes, useLocation } from "react-router-dom";
-
+import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {
+  useGetBackgroundColorQuery,
+  useGetTopArtistsQuery,
+} from "./redux/services/shazamCore";
+import { useDispatch } from "react-redux";
+import { setGradientColor } from "./redux/features/colorSlice";
 import {
   Searchbar,
   NavBar,
@@ -20,10 +25,6 @@ import {
   SongDetails,
   TopCharts,
 } from "./pages";
-import {
-  useGetBackgroundColorQuery,
-  useGetTopArtistsQuery,
-} from "./redux/services/shazamCore";
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
   const [artistId, setArtistId] = useState("");
@@ -33,19 +34,15 @@ const App = () => {
       setArtistId(data.tracks[0].artists[0]?.adamid);
     }
   }, [data]);
-  console.log(artistId);
   const { data: artistData, isFetching: isFetchingArtistDetails } =
-    useGetBackgroundColorQuery({ artistId });
-  const [gradientColor, setGradientColor] = useState("");
+    useGetBackgroundColorQuery(artistId);
+
+  const dispatch = useDispatch();
   useEffect(() => {
-    setGradientColor(artistData?.data[0].attributes?.artwork?.bgColor);
-  }, [gradientColor]);
-  useEffect(() => {
-    if (artistData)
-      setGradientColor((prevColor) => {
-        return artistData?.data[0].attributes?.artwork?.bgColor;
-      });
-  }, [artistData]);
+    const color = artistData?.data[0].attributes?.artwork?.bgColor;
+
+    dispatch(setGradientColor(color));
+  }, [artistData, dispatch]);
   if (error) {
     return <Error />;
   }
@@ -55,29 +52,14 @@ const App = () => {
   if (isFetchingArtistDetails) {
     return <Loader />;
   }
-  // const [pathname, setPathname] = useState(window.location.pathname);
-  // useEffect(() => {
-  //   const handleLocationChange = () => {
-  //     setPathname(window.location.pathname);
-  //   };
-  //   window.addEventListener("popstate", handleLocationChange);
-  //   return () => {
-  //     window.removeEventListener("popstate", handleLocationChange);
-  //   };
-  // }, [window.location.pathname]);
+
   return (
     <div className="relative flex flex-col bg-[#040404] ">
-      {!window.location.pathname.startsWith("/artists/:id") ||
-      !window.location.pathname.startsWith("/songs/:songid") ? (
-        <NavBar gradientColor={gradientColor} />
-      ) : null}
+      <NavBar />
 
       <div className="flex flex-row justify-between ">
         <Routes>
-          <Route
-            path="/"
-            element={<TopArtists gradientColor={gradientColor} />}
-          />
+          <Route path="/" element={<TopArtists />} />
           <Route path="/top-charts" element={<TopCharts />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/artists/:id" element={<ArtistDetails />} />
@@ -87,10 +69,7 @@ const App = () => {
         </Routes>
       </div>
       {/* <Searchbar /> */}
-      {window.location.pathname !== "/artists/:id" &&
-      window.location.pathname !== "/songs/:songid" ? (
-        <Footer gradientColor={gradientColor} />
-      ) : null}
+      <Footer />
 
       {activeSong?.title && (
         <div className="fixed  h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 backdrop-blur-lg  z-30">
@@ -134,3 +113,14 @@ export default App;
 //     </div>
 //   )}
 // </div>
+
+// const [gradientColor, setGradientColor] = useState("");
+// useEffect(() => {
+//   setGradientColor(artistData?.data[0].attributes?.artwork?.bgColor);
+// }, [gradientColor]);
+// useEffect(() => {
+//   if (artistData)
+//     setGradientColor((prevColor) => {
+//       return artistData?.data[0].attributes?.artwork?.bgColor;
+//     });
+// }, [artistData]);

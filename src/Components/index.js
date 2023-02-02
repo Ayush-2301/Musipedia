@@ -12,6 +12,9 @@ import SongCard from "./SongCard";
 import TopPlay from "./TopPlay";
 import MusicPlayer from "./MusicPlayer";
 import Footer from "./Footer";
+import Descritpion from "./Descritpion";
+import AlbumBar from "./AlbumBar";
+
 export {
   NavBar,
   ArtistCard,
@@ -27,4 +30,6 @@ export {
   TopPlay,
   MusicPlayer,
   Footer,
+  Descritpion,
+  AlbumBar,
 };

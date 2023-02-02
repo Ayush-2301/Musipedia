@@ -49,7 +49,6 @@ const TopCharts = () => {
         </select>
       </div>
       <div className="z-20">{songCharts}</div>
-      <div>Load more</div>
     </div>
   );
 };
