@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGetTopArtistsQuery } from "../redux/services/shazamCore";
 import { SongCard, Loader, Error } from "../Components/index";
 import { genres } from "../assets/constant/constant";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useGetGeniusTopChartsQuery } from "../redux/services/geniusCore";
 const TopCharts = () => {
-  const dispatch = useDispatch();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { data, isFetching, error } = useGetTopArtistsQuery();
   if (error) {
@@ -25,6 +25,7 @@ const TopCharts = () => {
       />
     );
   });
+
   return (
     <div
       className={`container mx-auto p-6  flex flex-col font-poppins bg-[#040404] text-white px-[13%] 

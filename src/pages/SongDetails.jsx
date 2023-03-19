@@ -6,6 +6,7 @@ import {
   useGetGeniusSongDataQuery,
   useGetGeniusSongLyricsQuery,
 } from "../redux/services/geniusCore";
+import { Loader, Error } from "../Components";
 const SongDetails = () => {
   const { songid } = useParams();
   console.log("name", songid);
@@ -37,13 +38,13 @@ const SongDetails = () => {
   } = useGetGeniusSongLyricsQuery(g_songId);
   if (g_lyricsSuccess) console.log("songLyrics", g_songLyrics);
 
-  const lyrics = () => {
-    return g_songLyrics?.lyrics?.lyrics?.body?.html;
-  };
+  if (g_isFetching || g_isFetchingSongData || g_isFetchingSongLyrics)
+    return <Loader />;
+  if (g_error || g_errorSongData || g_errorSongLyrics) return <Error />;
 
   return (
-    <div className="flex flex-col w-full text-white h-full font-poppins">
-      <div className="h-[350px]  w-full relative mb-[50px] h-full">
+    <div className="flex flex-col w-full text-white h-full font-poppins ">
+      <div className="h-[350px]  w-full relative mb-[50px]">
         <div className=" flex justify-center items-center">
           <img
             className="object-cover w-full h-[350px]"
@@ -121,10 +122,10 @@ const SongDetails = () => {
           ></div>
         </div>
         <div className="">
-          <p className="text-[90px] font-[600] tracking-wider  mb-[5px] leading-[135px] z-20">
+          <p className="text-[90px] font-[600] tracking-wider h-full mb-[5px] leading-[135px] z-20">
             About
           </p>
-          <p>{g_songData?.song?.description_preview}</p>
+          <p className="mb-[100px]">{g_songData?.song?.description_preview}</p>
         </div>
       </div>
     </div>

@@ -21,11 +21,11 @@ const Footer = () => {
   const techUsed = [
     { key: 1, name: "React" },
     { key: 2, name: "Redux" },
-    { key: 3, name: "Tailwind" },
+    { key: 3, name: "Tailwind CSS" },
     { key: 4, name: "Figma" },
   ];
   return (
-    <div className="flex relative h-[200px] w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 bg-gray-600 text-white  font-poppins z-20 rounded-t-[60px] ">
+    <div className="flex relative h-[200px] w-full bg-transparent bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10  text-white  font-poppins z-20 ">
       <div className="-z-30" style={accentColor(gradientColor)}>
         {" "}
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import PlayPause from "./PlayPause";
+import ArtistTopSongsPlayPause from "./ArtistTopSongsPlayPause";
 import { playPause, setActiveSong } from "../redux/features/playerSlice";
 
 const SongBar = ({ song, i, isPlaying, activeSong, data }) => {
@@ -24,20 +24,28 @@ const SongBar = ({ song, i, isPlaying, activeSong, data }) => {
           <div className="mx-2">{i + 1}. </div>
           <div className="">
             <img
-              src={song?.header_image_url}
+              src={song?.attributes?.artwork?.url
+                .replace("{w}", "100")
+                .replace("{h}", "100")}
               alt=""
               className="w-[70px] mx-1"
             />
           </div>
           <div className="flex flex-col justify-center items-start">
             <div className=" ml-2 text-white">
-              <Link to={`/songs/${song?.title}`}>{song?.title}</Link>
+              <Link to={`/songs/${song?.attributes?.name}`}>
+                {song?.attributes?.name}
+              </Link>
             </div>
             <div className=" ml-2 text-gray-400 w-full text-center">
               <Link
-                to={song?.artist_names ? `/artists/${song?.artist_names}` : "/"}
+                to={
+                  song?.attributes?.artistName
+                    ? `/artists/${song?.attributes?.artistName}`
+                    : "/"
+                }
               >
-                {song?.artist_names}
+                {song?.attributes?.artistName}
               </Link>
             </div>
           </div>
@@ -45,12 +53,12 @@ const SongBar = ({ song, i, isPlaying, activeSong, data }) => {
 
         <div
           className={`justify-center items-center bg-black bg-opacity-50  ${
-            activeSong?.title === song?.title
+            activeSong?.name === song?.attributes?.name
               ? `flex bg-black bg-opacity-70`
               : `flex`
           }`}
         >
-          <PlayPause
+          <ArtistTopSongsPlayPause
             isPlaying={isPlaying}
             activeSong={activeSong}
             song={song}

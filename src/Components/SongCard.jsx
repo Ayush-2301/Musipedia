@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PlayPause from "./PlayPause";
@@ -6,7 +5,6 @@ import { playPause, setActiveSong } from "../redux/features/playerSlice";
 
 const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
   const dispatch = useDispatch();
-
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
@@ -14,7 +12,6 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
     dispatch(setActiveSong({ song, data, i }));
     dispatch(playPause(true));
   };
-
   return (
     <div
       className={`flex  w-full border-l-0 border-r-0 border-t-0 border-gray-400 border-solid border h-[75px] font-poppins items-center`}

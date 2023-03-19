@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 #logo-animation {
   animation: rotate 3000ms linear infinite;
 }
@@ -9,8 +10,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-.artistImage {
-  box-sizing: border-box;
-  box-shadow: 0 0 8px 8px white inset;
 }

@@ -8,18 +8,36 @@ const Track = ({ isPlaying, isActive, activeSong }) => (
       } hidden sm:block h-16 w-16 mr-4`}
     >
       <img
-        src={activeSong?.images?.coverart}
+        src={
+          activeSong?.images?.coverart
+            ? activeSong?.images?.coverart
+            : activeSong?.artwork?.url
+                .replace("{w}", "100")
+                .replace("{h}", "100")
+        }
         alt="cover art"
         className="w-full"
       />
     </div>
     <div className="w-[50%]">
-      <p className="truncate text-white font-bold text-lg">
-        {activeSong?.title ? activeSong?.title : "No active Song"}
-      </p>
-      <p className="truncate text-gray-300">
-        {activeSong?.subtitle ? activeSong?.subtitle : "No active Song"}
-      </p>
+      {activeSong?.title ? (
+        <p className="truncate text-white font-bold text-lg">
+          {activeSong?.title ? activeSong?.title : "No active Song"}
+        </p>
+      ) : (
+        <p className="truncate text-white font-bold text-lg">
+          {activeSong?.name ? activeSong?.name : "No active Song"}
+        </p>
+      )}
+      {activeSong?.subtitle ? (
+        <p className="truncate text-gray-300">
+          {activeSong?.subtitle ? activeSong?.subtitle : "No active Song"}
+        </p>
+      ) : (
+        <p className="truncate text-gray-300">
+          {activeSong?.artistName ? activeSong?.artistName : "No active Song"}
+        </p>
+      )}
     </div>
   </div>
 );

@@ -36,11 +36,9 @@ const App = () => {
   }, [data]);
   const { data: artistData, isFetching: isFetchingArtistDetails } =
     useGetBackgroundColorQuery(artistId);
-
   const dispatch = useDispatch();
   useEffect(() => {
     const color = artistData?.data[0].attributes?.artwork?.bgColor;
-
     dispatch(setGradientColor(color));
   }, [artistData, dispatch]);
   if (error) {
@@ -54,7 +52,7 @@ const App = () => {
   }
 
   return (
-    <div className="relative flex flex-col bg-[#040404] ">
+    <div className="relative flex flex-col bg-[#040404]  ">
       <NavBar />
 
       <div className="flex flex-row justify-between ">
@@ -69,13 +67,15 @@ const App = () => {
         </Routes>
       </div>
       {/* <Searchbar /> */}
-      <Footer />
 
-      {activeSong?.title && (
-        <div className="fixed  h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 backdrop-blur-lg  z-30">
+      {(activeSong?.name || activeSong?.title) && (
+        <div
+          className={`h-28 sticky flex bottom-0 left-0 right-0 animate-slideup bg-transparent  bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10  z-30`}
+        >
           <MusicPlayer />
         </div>
       )}
+      <Footer />
     </div>
   );
 };
