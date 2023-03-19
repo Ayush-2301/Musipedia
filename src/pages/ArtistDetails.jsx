@@ -1,12 +1,10 @@
-import { React, useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   useGetShazamSearchQuery,
   useGetShazamArtistTopSongsQuery,
-  useGetBackgroundColorQuery,
 } from "../redux/services/shazamCore";
-import { useDispatch } from "react-redux";
 import {
   useGetGeniusSearchQuery,
   useGetGeniusArtistDataQuery,
@@ -15,7 +13,6 @@ import {
 import { useState } from "react";
 import { Loader, Error, SongBar, AlbumBar } from "../Components";
 import { BsInstagram, BsTwitter, BsFacebook } from "react-icons/bs";
-import { setGradientColor } from "../redux/features/colorSlice";
 const ArtistDetails = () => {
   // getting id from the link
   const { id } = useParams();

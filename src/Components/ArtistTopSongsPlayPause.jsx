@@ -1,6 +1,6 @@
 import React from "react";
 import { FaPauseCircle, FaPlayCircle } from "react-icons/fa";
-const PlayPause = ({
+const ArtistTopSongsPlayPause = ({
   isPlaying,
   activeSong,
   song,
@@ -22,4 +22,4 @@ const PlayPause = ({
   );
 };
 
-export default PlayPause;
+export default ArtistTopSongsPlayPause;

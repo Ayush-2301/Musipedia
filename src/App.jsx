@@ -7,19 +7,10 @@ import {
 } from "./redux/services/shazamCore";
 import { useDispatch } from "react-redux";
 import { setGradientColor } from "./redux/features/colorSlice";
-import {
-  Searchbar,
-  NavBar,
-  MusicPlayer,
-  TopPlay,
-  Footer,
-  Loader,
-  Error,
-} from "./Components/index";
+import { NavBar, MusicPlayer, Footer, Loader, Error } from "./Components/index";
 import {
   ArtistDetails,
   TopArtists,
-  AroundYou,
   Explore,
   Search,
   SongDetails,

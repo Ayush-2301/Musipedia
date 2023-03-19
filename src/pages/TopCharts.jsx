@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useGetTopArtistsQuery } from "../redux/services/shazamCore";
 import { SongCard, Loader, Error } from "../Components/index";
 import { genres } from "../assets/constant/constant";
 import { useSelector } from "react-redux";
-import { useGetGeniusTopChartsQuery } from "../redux/services/geniusCore";
 const TopCharts = () => {
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { data, isFetching, error } = useGetTopArtistsQuery();
