@@ -5,7 +5,7 @@ import Error from "./Error";
 import Loader from "./Loader";
 import PlayPause from "./PlayPause";
 import RelatedSongs from "./RelatedSongs";
-import Searchbar from "./SearchBar";
+import Searchbar from "./Searchbar";
 import Sidebar from "./Sidebar";
 import SongBar from "./SongBar";
 import SongCard from "./SongCard";
