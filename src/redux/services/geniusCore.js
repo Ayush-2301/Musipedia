@@ -6,7 +6,7 @@ export const geniusCoreApi = createApi({
     prepareHeaders: (headers) => {
       headers.set(
         "X-RapidAPI-key",
-        "f87a6d998fmshd8133b5c75b9499p1dbe3bjsnb4ee3055d114"
+        "255e515f27msh41ac6839c3e9f4dp1948fejsn7abe8b13ea98"
       );
       return headers;
     },
@@ -34,6 +34,10 @@ export const geniusCoreApi = createApi({
     getGeniusSongLyrics: builder.query({
       query: (songId) => `/song/lyrics/?id=${songId}`,
     }),
+    getGeniusAlbumData: builder.query({
+      query: (albumID) =>
+        `/album/appearances/?id=${albumID}&per_page=20&page=1`,
+    }),
   }),
 });
 export const {
@@ -44,4 +48,5 @@ export const {
   useGetGeniusArtistTopAlbumsQuery,
   useGetGeniusSongDataQuery,
   useGetGeniusSongLyricsQuery,
+  useGetGeniusAlbumDataQuery,
 } = geniusCoreApi;

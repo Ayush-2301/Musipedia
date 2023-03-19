@@ -108,12 +108,28 @@ const TopArtists = () => {
           style={EllipseColor(gradientColor)}
         ></div>
       </div>
-      <div className="flex flex-col text-6xl font-poppins font-extrabold h-[270px] bg-gray-400 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 z-20 p-6 space-y-3 justify-center tracking-wide leading-[65px]">
-        <div>Play, Create &</div>
-        <div>Explore</div>
-        <div>
-          The World of <span style={{ color: `#${gradientColor}` }}>Music</span>
+      <div className="p-[3px] overflow-hidden bg-gray-400  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 z-20 relative">
+        <div
+          className="absolute top-0 right-0 w-[2px] h-[200px] "
+          style={{
+            background: `linear-gradient(to top, rgba(0, 0, 255, 0) 0%, #${gradientColor} 100%)`,
+          }}
+        ></div>
+
+        <div className="flex flex-col text-6xl font-poppins font-extrabold h-[270px]  z-30 p-6 space-y-3 justify-center tracking-wide leading-[65px]  bg-transparent rounded-xl ">
+          <div>Play, Create &</div>
+          <div>Explore</div>
+          <div>
+            The World of{" "}
+            <span style={{ color: `#${gradientColor}` }}>Music</span>
+          </div>
         </div>
+        <div
+          className="absolute top-0 right-0 w-[600px] h-[1.5px]  rounded-t-2xl "
+          style={{
+            background: `linear-gradient(to right, rgba(0, 0, 255, 0) 0%, #${gradientColor} 100%)`,
+          }}
+        ></div>
       </div>
     </div>
   );

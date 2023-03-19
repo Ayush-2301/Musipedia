@@ -31,14 +31,14 @@ const App = () => {
   const { data, isFetching, error } = useGetTopArtistsQuery();
   useEffect(() => {
     if (data?.tracks && data?.tracks.length > 0) {
-      setArtistId(data.tracks[0].artists[0]?.adamid);
+      setArtistId(data.tracks[1].artists[0]?.adamid);
     }
   }, [data]);
   const { data: artistData, isFetching: isFetchingArtistDetails } =
     useGetBackgroundColorQuery(artistId);
   const dispatch = useDispatch();
   useEffect(() => {
-    const color = artistData?.data[0].attributes?.artwork?.bgColor;
+    const color = artistData?.data[0]?.attributes?.artwork?.bgColor;
     dispatch(setGradientColor(color));
   }, [artistData, dispatch]);
   if (error) {
@@ -70,7 +70,7 @@ const App = () => {
 
       {(activeSong?.name || activeSong?.title) && (
         <div
-          className={`h-28 sticky flex bottom-0 left-0 right-0 animate-slideup bg-transparent  bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10  z-30`}
+          className={`h-28 sticky flex bottom-0 left-0 right-0 animate-slideup bg-transparent  bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10  z-50`}
         >
           <MusicPlayer />
         </div>

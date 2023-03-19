@@ -4,44 +4,54 @@ import { useSelector } from "react-redux";
 import {
   useGetShazamSearchQuery,
   useGetShazamArtistTopSongsQuery,
+  useGetBackgroundColorQuery,
 } from "../redux/services/shazamCore";
-import { setGradientColor } from "../redux/features/colorSlice";
+import { useDispatch } from "react-redux";
 import {
   useGetGeniusSearchQuery,
   useGetGeniusArtistDataQuery,
-  useGetGeniusArtistTopSongsQuery,
   useGetGeniusArtistTopAlbumsQuery,
 } from "../redux/services/geniusCore";
 import { useState } from "react";
 import { Loader, Error, SongBar, AlbumBar } from "../Components";
-import {
-  FiCornerDownRight,
-  FiCornerRightDown,
-  FiCornerRightUp,
-} from "react-icons/fi";
-
+import { BsInstagram, BsTwitter, BsFacebook } from "react-icons/bs";
+import { setGradientColor } from "../redux/features/colorSlice";
 const ArtistDetails = () => {
   // getting id from the link
   const { id } = useParams();
+
   const {
     data: s_artistData,
     isFetching: s_isFetching,
     isError: s_isError,
+    isSuccess: s_isSuccess,
   } = useGetShazamSearchQuery(id);
+
   const s_artistId = s_artistData?.artists?.hits[0]?.artist?.adamid;
+  // const { data: artistData, isFetching: isFetchingArtistDetails } =
+  //   useGetBackgroundColorQuery(s_artistId);
+  // console.log(artistData);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const color = artistData?.data[0]?.attributes?.artwork?.bgColor;
+  //   dispatch(setGradientColor(color));
+  // }, [artistData, dispatch]);
   const {
     data: s_artistTopSongs,
     isFetching: s_fetchingTopSongs,
     isError: s_errorTopSongs,
     isSuccess: s_successTopSongs,
   } = useGetShazamArtistTopSongsQuery(s_artistId);
+
   const {
     data: g_ArtistId,
     isFetching: g_isFetching,
     error: g_error,
     isSuccess: g_artistIdSuccess,
   } = useGetGeniusSearchQuery(id);
+
   const g_artistId = g_ArtistId?.hits[0]?.result?.primary_artist?.id;
+
   const {
     data: g_artistData,
     isFetching: g_isFetchingArtistData,
@@ -53,6 +63,7 @@ const ArtistDetails = () => {
   const toggleBtn = () => {
     setIsReadShown((prevState) => !prevState);
   };
+
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const songGrid = s_artistTopSongs?.data?.slice(0, 6).map((song, i) => {
     return (
@@ -80,22 +91,30 @@ const ArtistDetails = () => {
   });
 
   if (
+    s_isFetching ||
     g_isFetching ||
     g_isFetchingArtistData ||
     s_fetchingTopSongs ||
     g_fetchingTopAlbum
   )
     return <Loader />;
-  if (g_error || g_errorArtistData || s_errorTopSongs || g_errorTopAlbum)
+  if (
+    g_error ||
+    g_errorArtistData ||
+    s_errorTopSongs ||
+    g_errorTopAlbum ||
+    s_isError
+  )
     return <Error />;
   if (
     g_artistIdSuccess ||
     g_artistDataSuccess ||
     s_successTopSongs ||
-    g_successTopAlbum
+    g_successTopAlbum ||
+    s_isSuccess
   ) {
     return (
-      <div className="flex flex-col w-full text-white h-full">
+      <div className="flex flex-col w-full text-white h-full z-50">
         <div className="h-[350px]  w-full relative mb-[50px]">
           <div className=" flex justify-center items-center">
             <img
@@ -107,22 +126,55 @@ const ArtistDetails = () => {
           <div className="absolute bottom-[-30px] w-[250px] h-[250px] left-[200px] drop-shadow-md ">
             <img src={g_artistData?.artist?.image_url} alt="" />
           </div>
-          <div className="absolute bottom-0 left-[480px] font-poppins  mb-3 ">
-            <div className="text-6xl font-extrabold">
-              {g_artistData?.artist?.name}
+          <div className="absolute bottom-0 left-[480px] font-poppins  mb-3 flex  justify-center  w-max items-end ">
+            <div className="mr-[5%]">
+              <div className="text-6xl font-extrabold">
+                {g_artistData?.artist?.name}
+              </div>
+              {g_artistData?.artist?.alternate_names && (
+                <div className="flex flex-row space-x-3">
+                  AKA:
+                  {g_artistData?.artist?.alternate_names?.map((name, i) => {
+                    return (
+                      <p key={i} className="ml-2">
+                        {name}
+                        {i !== g_artistData?.artist?.alternate_names?.length - 1
+                          ? " ,"
+                          : ""}
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-            <div className="flex flex-row space-x-3">
-              AKA:
-              {g_artistData?.artist?.alternate_names?.map((name, i) => {
-                return (
-                  <p key={i} className="ml-2">
-                    {name}
-                    {i !== g_artistData?.artist?.alternate_names?.length - 1
-                      ? " ,"
-                      : ""}
-                  </p>
-                );
-              })}
+            <div className="flex space-x-4">
+              <a
+                href={`https://twitter.com/${g_artistData?.artist?.twitter_name}`}
+                target="_blank"
+              >
+                <BsTwitter
+                  size={25}
+                  className="hover:text-[#00acee] transition"
+                ></BsTwitter>
+              </a>
+              <a
+                href={`https://www.facebook.com/${g_artistData?.artist?.facebook_name}`}
+                target="_blank"
+              >
+                <BsFacebook
+                  size={25}
+                  className="hover:text-[#4267B2] transition"
+                ></BsFacebook>
+              </a>
+              <a
+                href={`https://www.instagram.com/${g_artistData?.artist?.instagram_name}/`}
+                target="_blank"
+              >
+                <BsInstagram
+                  size={25}
+                  className="hover:text-[#E1306C] transition"
+                ></BsInstagram>
+              </a>
             </div>
           </div>
         </div>
@@ -143,17 +195,19 @@ const ArtistDetails = () => {
                         )} . . .`}
                     <button className=" text-center">
                       {!isReadShow ? (
-                        <FiCornerRightDown
-                          className="font-extrabold block"
+                        <p
+                          className=" font-bold cursor-pointer mx-2"
                           onClick={toggleBtn}
-                          size={25}
-                        />
+                        >
+                          Read more {">>"}
+                        </p>
                       ) : (
-                        <FiCornerRightUp
-                          className="font-extrabold block"
+                        <p
+                          className=" font-bold cursor-pointer mx-2"
                           onClick={toggleBtn}
-                          size={25}
-                        />
+                        >
+                          Read less {"<<"}
+                        </p>
                       )}
                     </button>
                   </div>
