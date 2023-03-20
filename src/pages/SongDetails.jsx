@@ -164,7 +164,7 @@ const SongDetails = () => {
                 g_albumData?.album_appearances?.map((song, i) => {
                   return (
                     <p
-                      key={song.song.id}
+                      key={i}
                       className={`${
                         g_songData?.song?.title === song?.song?.title
                           ? `border`
@@ -187,9 +187,9 @@ const SongDetails = () => {
               Credits
             </p>
             <div className="grid grid-cols-2  self-start w-full">
-              {displayCredits.map((credit) => {
+              {displayCredits.map((credit, i) => {
                 return (
-                  <div key={credit.id} className="w-max p-5 font-poppins">
+                  <div key={i} className="w-max p-5 font-poppins">
                     <p className="font-extrabold text-lg">{credit?.label}</p>
                     <p className=" underline tracking-wide">
                       <a href={credit?.artists[0]?.url} target="_blank">

@@ -16,7 +16,6 @@ import { BsInstagram, BsTwitter, BsFacebook } from "react-icons/bs";
 const ArtistDetails = () => {
   // getting id from the link
   const { id } = useParams();
-
   const {
     data: s_artistData,
     isFetching: s_isFetching,
