@@ -16,6 +16,7 @@ import {
   SongDetails,
   TopCharts,
 } from "./pages";
+import { SkeletonTheme } from "react-loading-skeleton";
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
   const [artistId, setArtistId] = useState("");
@@ -47,15 +48,17 @@ const App = () => {
       <NavBar />
 
       <div className="flex flex-row justify-between ">
-        <Routes>
-          <Route path="/" element={<TopArtists />} />
-          <Route path="/top-charts" element={<TopCharts />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/artists/:id" element={<ArtistDetails />} />
-          <Route path="/songs/:songid" element={<SongDetails />} />
-          {/* <Route path="/around-you" element={<AroundYou />} /> */}
-          <Route path="/search/:searchTerm" element={<Search />} />
-        </Routes>
+        <SkeletonTheme baseColor="#2c2b2b" highlightColor="#575757">
+          <Routes>
+            <Route path="/" element={<TopArtists />} />
+            <Route path="/top-charts" element={<TopCharts />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/artists/:id" element={<ArtistDetails />} />
+            <Route path="/songs/:songid" element={<SongDetails />} />
+            {/* <Route path="/around-you" element={<AroundYou />} /> */}
+            <Route path="/search/:searchTerm" element={<Search />} />
+          </Routes>
+        </SkeletonTheme>
       </div>
       {/* <Searchbar /> */}
 
