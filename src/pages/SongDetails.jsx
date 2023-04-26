@@ -11,13 +11,18 @@ import { Loader, Error } from "../Components";
 const SongDetails = () => {
   const { songid } = useParams();
   const [expanded, setExpanded] = useState(false);
+  console.log(songid);
+
   const {
     data: g_SongId,
     isFetching: g_isFetching,
     error: g_error,
     isSuccess: g_SongIdSuccess,
   } = useGetGeniusSearchQuery(songid);
+  console.log(g_SongId);
+
   const g_songId = g_SongId?.hits[0]?.result?.id;
+  console.log(g_songId);
 
   const {
     data: g_songData,
@@ -26,6 +31,8 @@ const SongDetails = () => {
     isSuccess: g_songDataSuccess,
   } = useGetGeniusSongDataQuery(g_songId);
 
+  console.log(g_songData);
+
   const {
     data: g_songLyrics,
     isFetching: g_isFetchingSongLyrics,
@@ -33,12 +40,17 @@ const SongDetails = () => {
     isSuccess: g_lyricsSuccess,
   } = useGetGeniusSongLyricsQuery(g_songId);
 
+  const albumID = g_songData?.song?.album?.id;
+  console.log(albumID);
   const {
     data: g_albumData,
     isFetching: albumFetching,
     isError: albumError,
     isSuccess: albumSuccess,
-  } = useGetGeniusAlbumDataQuery(g_songData?.song?.album?.id);
+  } = useGetGeniusAlbumDataQuery(albumID);
+
+  console.log(g_albumData);
+
   const displayCredits = expanded
     ? g_songData?.song?.custom_performances
     : g_songData?.song?.custom_performances.slice(0, 6);
@@ -49,9 +61,8 @@ const SongDetails = () => {
     albumFetching
   )
     return <Loader />;
-  if (g_error || g_errorSongData || g_errorSongLyrics || albumError)
-    return <Error />;
-  if (g_lyricsSuccess || g_SongIdSuccess || g_songDataSuccess || albumSuccess) {
+  if (g_error || g_errorSongData || g_errorSongLyrics) return <Error />;
+  if (g_lyricsSuccess || g_SongIdSuccess || g_songDataSuccess) {
     return (
       <div className="flex flex-col w-full text-white h-full font-poppins z-20 mb-[100px] ">
         <div className="h-[350px]  w-full relative mb-[50px]">
@@ -173,7 +184,7 @@ const SongDetails = () => {
                     >
                       <Link
                         className="hover:underline"
-                        to={`/songs/${song?.song?.title}`}
+                        to={`/songs/${song?.song?.title} - ${g_songData?.song?.album?.artist?.name}`}
                       >
                         {i + 1}. {song?.song?.title}
                       </Link>

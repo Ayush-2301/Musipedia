@@ -30,18 +30,22 @@ const Player = ({
   }, [seekTime]);
 
   return (
-    <audio
-      src={
-        activeSong?.hub?.actions[1]?.uri
-          ? activeSong?.hub?.actions[1]?.uri
-          : activeSong?.previews[0]?.url
-      }
-      ref={ref}
-      loop={repeat}
-      onEnded={onEnded}
-      onTimeUpdate={onTimeUpdate}
-      onLoadedData={onLoadedData}
-    />
+    <>
+      {(activeSong?.hub?.actions[1]?.uri || activeSong?.previews[0]?.url) && (
+        <audio
+          src={
+            activeSong?.hub?.actions[1]?.uri
+              ? activeSong?.hub?.actions[1]?.uri
+              : activeSong?.previews[0]?.url
+          }
+          ref={ref}
+          loop={repeat}
+          onEnded={onEnded}
+          onTimeUpdate={onTimeUpdate}
+          onLoadedData={onLoadedData}
+        />
+      )}
+    </>
   );
 };
 

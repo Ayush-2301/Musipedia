@@ -14,7 +14,8 @@ import MusicPlayer from "./MusicPlayer";
 import Footer from "./Footer";
 import Descritpion from "./Descritpion";
 import AlbumBar from "./AlbumBar";
-
+import SearchSongBar from "./SearchSongBar";
+import SearchArtistBar from "./SearchArtistBar";
 export {
   NavBar,
   ArtistCard,
@@ -32,4 +33,6 @@ export {
   Footer,
   Descritpion,
   AlbumBar,
+  SearchSongBar,
+  SearchArtistBar,
 };

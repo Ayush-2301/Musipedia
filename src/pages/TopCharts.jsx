@@ -13,16 +13,19 @@ const TopCharts = () => {
     return <Loader />;
   }
   const songCharts = data?.tracks?.slice(0, 10).map((song, i) => {
-    return (
-      <SongCard
-        key={song.key}
-        song={song}
-        i={i}
-        isPlaying={isPlaying}
-        activeSong={activeSong}
-        data={data}
-      />
-    );
+    if (!song?.images?.coverarthq) return null;
+    else {
+      return (
+        <SongCard
+          key={song.key}
+          song={song}
+          i={i}
+          isPlaying={isPlaying}
+          activeSong={activeSong}
+          data={data}
+        />
+      );
+    }
   });
 
   return (
@@ -48,7 +51,7 @@ const TopCharts = () => {
           })}
         </select>
       </div>
-      <div className="z-20">{songCharts}</div>
+      <div className="z-20 space-y-1">{songCharts}</div>
     </div>
   );
 };

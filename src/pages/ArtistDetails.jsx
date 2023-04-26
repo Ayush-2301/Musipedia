@@ -16,6 +16,11 @@ import { BsInstagram, BsTwitter, BsFacebook } from "react-icons/bs";
 const ArtistDetails = () => {
   // getting id from the link
   const { id } = useParams();
+
+  const [isReadShow, setIsReadShown] = useState(false);
+
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
+
   const {
     data: s_artistData,
     isFetching: s_isFetching,
@@ -24,14 +29,7 @@ const ArtistDetails = () => {
   } = useGetShazamSearchQuery(id);
 
   const s_artistId = s_artistData?.artists?.hits[0]?.artist?.adamid;
-  // const { data: artistData, isFetching: isFetchingArtistDetails } =
-  //   useGetBackgroundColorQuery(s_artistId);
-  // console.log(artistData);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const color = artistData?.data[0]?.attributes?.artwork?.bgColor;
-  //   dispatch(setGradientColor(color));
-  // }, [artistData, dispatch]);
+
   const {
     data: s_artistTopSongs,
     isFetching: s_fetchingTopSongs,
@@ -55,12 +53,17 @@ const ArtistDetails = () => {
     isSuccess: g_artistDataSuccess,
   } = useGetGeniusArtistDataQuery(g_artistId);
 
-  const [isReadShow, setIsReadShown] = useState(false);
+  const {
+    data: g_ArtistTopAlbum,
+    isFetching: g_fetchingTopAlbum,
+    error: g_errorTopAlbum,
+    isSuccess: g_successTopAlbum,
+  } = useGetGeniusArtistTopAlbumsQuery(g_artistId);
+
   const toggleBtn = () => {
     setIsReadShown((prevState) => !prevState);
   };
-
-  const { activeSong, isPlaying } = useSelector((state) => state.player);
+  console.log(s_artistTopSongs);
   const songGrid = s_artistTopSongs?.data?.slice(0, 6).map((song, i) => {
     return (
       <SongBar
@@ -74,12 +77,6 @@ const ArtistDetails = () => {
     );
   });
 
-  const {
-    data: g_ArtistTopAlbum,
-    isFetching: g_fetchingTopAlbum,
-    error: g_errorTopAlbum,
-    isSuccess: g_successTopAlbum,
-  } = useGetGeniusArtistTopAlbumsQuery(g_artistId);
   const albumGrid = g_ArtistTopAlbum?.albums?.map((album, i) => {
     return (
       <AlbumBar key={album.id} i={i} data={g_ArtistTopAlbum} album={album} />
@@ -122,7 +119,7 @@ const ArtistDetails = () => {
           <div className="absolute bottom-[-30px] w-[250px] h-[250px] left-[200px] drop-shadow-md ">
             <img src={g_artistData?.artist?.image_url} alt="" />
           </div>
-          <div className="absolute bottom-0 left-[480px] font-poppins  mb-3 flex  justify-center  w-max items-end ">
+          <div className="absolute bottom-0 left-[480px] font-poppins  mb-3 flex  justify-between max-w-[54vw] w-full items-center ">
             <div className="mr-[5%]">
               <div className="text-6xl font-extrabold">
                 {g_artistData?.artist?.name}
@@ -130,16 +127,19 @@ const ArtistDetails = () => {
               {g_artistData?.artist?.alternate_names && (
                 <div className="flex flex-row space-x-3">
                   AKA:
-                  {g_artistData?.artist?.alternate_names?.map((name, i) => {
-                    return (
-                      <p key={i} className="ml-2">
-                        {name}
-                        {i !== g_artistData?.artist?.alternate_names?.length - 1
-                          ? " ,"
-                          : ""}
-                      </p>
-                    );
-                  })}
+                  {g_artistData?.artist?.alternate_names
+                    ?.slice(0, 3)
+                    .map((name, i) => {
+                      return (
+                        <p key={i} className="w-max ml-2">
+                          {name}
+                          {i !==
+                          g_artistData?.artist?.alternate_names?.length - 1
+                            ? " ,"
+                            : ""}
+                        </p>
+                      );
+                    })}
                 </div>
               )}
             </div>
@@ -276,3 +276,12 @@ export default ArtistDetails;
 // }
 //
 //
+
+// const { data: artistData, isFetching: isFetchingArtistDetails } =
+//   useGetBackgroundColorQuery(s_artistId);
+// console.log(artistData);
+// const dispatch = useDispatch();
+// useEffect(() => {
+//   const color = artistData?.data[0]?.attributes?.artwork?.bgColor;
+//   dispatch(setGradientColor(color));
+// }, [artistData, dispatch]);

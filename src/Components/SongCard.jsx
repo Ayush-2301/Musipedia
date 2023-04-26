@@ -14,7 +14,7 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
   };
   return (
     <div
-      className={`flex  w-full border-l-0 border-r-0 border-t-0 border-gray-400 border-solid border h-[75px] font-poppins items-center`}
+      className={`flex  w-full  bg-gray-600 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm  bg-opacity-10 hover:bg-gray-500 hover:bg-opacity-20  h-[75px] font-poppins items-center`}
     >
       <div className="flex  items-center font-thin flex-row text-2xl w-full justify-between">
         <div className="flex flex-row items-center  w-full">

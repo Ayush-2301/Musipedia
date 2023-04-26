@@ -9,6 +9,7 @@ import {
   HiOutlinePhotograph,
   HiOutlineUserGroup,
 } from "react-icons/hi";
+import Searchbar from "./Searchbar";
 const links = [
   { name: "Top Artists", to: "/", icon: HiOutlineUserGroup },
   { name: "Explore", to: "/explore", icon: HiOutlineMenu },
@@ -63,13 +64,7 @@ const NavBar = () => {
       </div>
       <div className="flex flex-row items-center w-full justify-end">
         <NavLinks />
-        <div>
-          <input
-            type="text"
-            className="p-2 py-1 rounded-3xl w-full bg-gray-700 text-gray-300 outline-none"
-            placeholder="Search"
-          />
-        </div>
+        <Searchbar />
       </div>
     </div>
   );

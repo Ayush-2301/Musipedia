@@ -17,7 +17,7 @@ const SongBar = ({ song, i, isPlaying, activeSong, data }) => {
 
   return (
     <div
-      className={`flex  w-full border-l-0 border-r-0 border-t-0 border-gray-400 border-solid border h-[80px] font-poppins items-center `}
+      className={`flex  w-full  bg-gray-600 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm  bg-opacity-10 hover:bg-gray-500 hover:bg-opacity-20  h-[80px] font-poppins items-center pr-2 `}
     >
       <div className="flex  items-center font-thin flex-row text-xl w-full justify-between">
         <div className="flex flex-row items-center  w-full">
@@ -33,11 +33,13 @@ const SongBar = ({ song, i, isPlaying, activeSong, data }) => {
           </div>
           <div className="flex flex-col justify-center items-start">
             <div className=" ml-2 text-white">
-              <Link to={`/songs/${song?.attributes?.name}`}>
+              <Link
+                to={`/songs/${song?.attributes?.name} - ${song?.attributes?.artistName}`}
+              >
                 {song?.attributes?.name}
               </Link>
             </div>
-            <div className=" ml-2 text-gray-400 w-full text-center">
+            <div className=" ml-2 text-gray-400 ">
               <Link
                 to={
                   song?.attributes?.artistName

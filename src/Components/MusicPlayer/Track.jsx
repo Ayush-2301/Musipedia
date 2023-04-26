@@ -7,17 +7,19 @@ const Track = ({ isPlaying, isActive, activeSong }) => (
         isPlaying && isActive ? "w-full" : ""
       } hidden sm:block h-16 w-16 mr-4`}
     >
-      <img
-        src={
-          activeSong?.images?.coverart
-            ? activeSong?.images?.coverart
-            : activeSong?.artwork?.url
-                .replace("{w}", "100")
-                .replace("{h}", "100")
-        }
-        alt="cover art"
-        className="w-full"
-      />
+      {(activeSong?.images?.coverart || activeSong?.artwork?.url) && (
+        <img
+          src={
+            activeSong?.images?.coverart
+              ? activeSong?.images?.coverart
+              : activeSong?.artwork?.url
+                  .replace("{w}", "100")
+                  .replace("{h}", "100")
+          }
+          alt="cover art"
+          className="w-full"
+        />
+      )}
     </div>
     <div className="w-[50%]">
       {activeSong?.title ? (
