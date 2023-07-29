@@ -7,7 +7,9 @@ const PlayPause = ({
   handlePause,
   handlePlay,
 }) => {
-  return isPlaying && activeSong?.title === song.title ? (
+  return isPlaying &&
+    activeSong?.subtitle === song.subtitle &&
+    activeSong?.title === song.title ? (
     <FaPauseCircle
       size={35}
       className="text-gray-300 cursor-pointer"

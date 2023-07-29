@@ -27,19 +27,17 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
             />
           </div>
           <div className="ml-4">
-            <Link to={`/songs/${song?.share?.subject}`}>{song.title}</Link>
+            <Link to={`/songs/${song?.share?.subject}`}>{song?.title}</Link>
           </div>
         </div>
         <div className="mr-2 text-gray-400 w-full text-center">
-          <Link to={song.artists ? `/artists/${song?.subtitle}` : "/"}>
-            {song.subtitle}
+          <Link to={song?.artists ? `/artists/${song?.subtitle}` : "/"}>
+            {song?.subtitle}
           </Link>
         </div>
         <div
-          className={`justify-center items-center bg-black bg-opacity-50  ${
-            activeSong?.title === song.title
-              ? `flex bg-black bg-opacity-70`
-              : `flex`
+          className={`justify-center items-center bg-opacity-50 mr-2 ${
+            activeSong?.title === song?.title ? `flex bg-opacity-70` : `flex`
           }`}
         >
           <PlayPause

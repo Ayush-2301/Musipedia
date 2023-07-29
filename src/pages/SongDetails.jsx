@@ -132,103 +132,119 @@ const SongDetails = () => {
           </div>
         </div>
         <div className="container flex flex-col space-y-8 px-[200px]  font-poppins h-full text-white">
-          <div className="mb-5">
-            <p className="text-[90px] font-[600] tracking-wider  mb-[10px] leading-[135px] z-20">
-              Lyrics
-            </p>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: g_songLyrics?.lyrics?.lyrics?.body?.html,
-              }}
-            ></div>
-          </div>
-          <div className="">
-            <p className="text-[90px] font-[600] tracking-wider h-full mb-[5px] leading-[135px] z-20">
-              About
-            </p>
-            <p className="font-2xl font-medium border p-9 ">
-              {g_songData?.song?.description_preview}
-            </p>
-          </div>
-          <div className="">
-            <p className="text-[90px] font-[600] tracking-wider  mb-[5px] leading-[135px] z-20">
-              Album
-            </p>
-            <div className="flex  items-center">
-              <img
-                src={g_songData?.song?.album?.cover_art_url}
-                className="w-[200px]"
-                alt=""
-              />
-              <div className="font-2xl  px-9">
-                <p>{g_songData?.song?.album?.full_title}</p>
-                <Link
-                  className="underline"
-                  to={`/artists/${g_songData?.song?.album?.artist?.name}`}
-                >
-                  {g_songData?.song?.album?.artist?.name}
-                </Link>
-              </div>
+          {g_songLyrics?.lyrics?.lyrics?.body?.html && (
+            <div className="mb-5">
+              <p className="text-[90px] font-[600] tracking-wider  mb-[10px] leading-[135px] z-20">
+                Lyrics
+              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: g_songLyrics?.lyrics?.lyrics?.body?.html,
+                }}
+              ></div>
             </div>
-            <div className="grid  grid-cols-2 mt-5 ">
-              {g_albumData?.album_appearances &&
-                g_albumData?.album_appearances?.map((song, i) => {
-                  return (
-                    <p
-                      key={i}
-                      className={`${
-                        g_songData?.song?.title === song?.song?.title
-                          ? `border`
-                          : ""
-                      } p-2  text-lg  w-max`}
+          )}
+          <div className="">
+            {g_songData?.song?.description_preview && (
+              <>
+                <p className="text-[90px] font-[600] tracking-wide h-full mb-[5px] leading-[135px] z-20">
+                  Do you know?
+                </p>
+                <p className="font-2xl font-medium border p-9 ">
+                  {g_songData?.song?.description_preview}
+                </p>
+              </>
+            )}
+          </div>
+          <div className="">
+            {g_songData?.song?.album?.cover_art_url && (
+              <>
+                <p className="text-[90px] font-[600] tracking-wider  mb-[5px] leading-[135px] z-20">
+                  Album
+                </p>
+                <div className="flex  items-center">
+                  <img
+                    src={g_songData?.song?.album?.cover_art_url}
+                    className="w-[200px]"
+                    alt=""
+                  />
+                  <div className="font-2xl  px-9">
+                    <p>{g_songData?.song?.album?.full_title}</p>
+                    <Link
+                      className="underline"
+                      to={`/artists/${g_songData?.song?.album?.artist?.name}`}
                     >
-                      <Link
-                        className="hover:underline"
-                        to={`/songs/${song?.song?.title} - ${g_songData?.song?.album?.artist?.name}`}
-                      >
-                        {i + 1}. {song?.song?.title}
-                      </Link>
-                    </p>
-                  );
-                })}
-            </div>
+                      {g_songData?.song?.album?.artist?.name}
+                    </Link>
+                  </div>
+                </div>
+                <div className="grid  grid-cols-2 mt-5 ">
+                  {g_albumData?.album_appearances &&
+                    g_albumData?.album_appearances?.map((song, i) => {
+                      return (
+                        <p
+                          key={i}
+                          className={`${
+                            g_songData?.song?.title === song?.song?.title
+                              ? `border`
+                              : ""
+                          } p-2  text-lg  w-max`}
+                        >
+                          <Link
+                            className="hover:underline"
+                            to={`/songs/${song?.song?.title} - ${g_songData?.song?.album?.artist?.name}`}
+                          >
+                            {i + 1}. {song?.song?.title}
+                          </Link>
+                        </p>
+                      );
+                    })}
+                </div>
+              </>
+            )}
           </div>
           <div className="flex flex-col justify-center items-center">
-            <p className=" self-start text-[90px] font-[600] tracking-wider h-full mb-[5px] leading-[135px] z-20">
-              Credits
-            </p>
-            <div className="grid grid-cols-2  self-start w-full">
-              {displayCredits.map((credit, i) => {
-                return (
-                  <div key={i} className="w-max p-5 font-poppins">
-                    <p className="font-extrabold text-lg">{credit?.label}</p>
-                    <p className=" underline tracking-wide">
-                      <a href={credit?.artists[0]?.url} target="_blank">
-                        {credit?.artists[0].name}
-                      </a>
+            {displayCredits && (
+              <>
+                <p className=" self-start text-[90px] font-[600] tracking-wider h-full mb-[5px] leading-[135px] z-20">
+                  Credits
+                </p>
+                <div className="grid grid-cols-2  self-start w-full">
+                  {displayCredits.map((credit, i) => {
+                    return (
+                      <div key={i} className="w-max p-5 font-poppins">
+                        <p className="font-extrabold text-lg">
+                          {credit?.label}
+                        </p>
+                        <p className=" underline tracking-wide">
+                          <a href={credit?.artists[0]?.url} target="_blank">
+                            {credit?.artists[0].name}
+                          </a>
+                        </p>
+                      </div>
+                    );
+                  })}
+                  <div className="w-full p-5 ">
+                    <p className="font-extrabold text-lg">Recorded At</p>
+                    <p className="underline tracking-wide">
+                      {g_songData?.song?.recording_location}
                     </p>
                   </div>
-                );
-              })}
-              <div className="w-full p-5 ">
-                <p className="font-extrabold text-lg">Recorded At</p>
-                <p className="underline tracking-wide">
-                  {g_songData?.song?.recording_location}
-                </p>
-              </div>
-              <div className="w-full p-5">
-                <p className="font-extrabold text-lg">Release Date</p>
-                <p className="underline tracking-wide">
-                  {g_songData?.song?.release_date_for_display}
-                </p>
-              </div>
-            </div>
-            <button
-              className="ml-3 self-start font-extrabold text-2xl cursor-pointer border  hover:underline px-5 py-2 transition"
-              onClick={() => setExpanded(!expanded)}
-            >
-              {expanded ? "Collapse" : "Expand"}
-            </button>
+                  <div className="w-full p-5">
+                    <p className="font-extrabold text-lg">Release Date</p>
+                    <p className="underline tracking-wide">
+                      {g_songData?.song?.release_date_for_display}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="ml-3 self-start font-extrabold text-2xl cursor-pointer border  hover:underline px-5 py-2 transition"
+                  onClick={() => setExpanded(!expanded)}
+                >
+                  {expanded ? "Collapse" : "Expand"}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useGetShazamSearchQuery } from "../redux/services/shazamCore";
-import { SearchSongBar, SearchArtistBar } from "../Components";
+import { SearchSongBar, SearchArtistBar, Error } from "../Components";
 import { useSelector } from "react-redux";
-
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import CardSkelton from "../Components/CardSkelton";
 import BigCardSkelton from "../Components/BigCardSkelton";
@@ -14,9 +12,7 @@ import CircleCardSkeleton from "../Components/CircleCardSkeleton";
 const Search = () => {
   const { searchTerm } = useParams();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
-  console.log(searchTerm);
   const { data, isFetching, isError } = useGetShazamSearchQuery(searchTerm);
-  // console.log(data?.artists?.hits[0]?.artist);
   const songList = data?.tracks?.hits?.map((song, i) => (
     <SearchSongBar
       key={song.track.key}
@@ -30,6 +26,8 @@ const Search = () => {
   const artistList = data?.artists?.hits?.map((artist, i) => (
     <SearchArtistBar key={artist.artist.adamid} artist={artist.artist} i={i} />
   ));
+  console.log(isFetching);
+  if (isError) return <Error />;
   return (
     <div className="container flex flex-col gap-y-5 mx-[200px] p-6  font-poppins bg-[#040404]  text-white h-[1000px] mb-[50px]">
       <div className="flex flex-row  justify-between h-full z-20">

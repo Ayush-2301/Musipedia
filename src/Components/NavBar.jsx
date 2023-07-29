@@ -29,7 +29,7 @@ const NavBar = () => {
     zIndex: `-99999`,
   });
 
-  const NavLinks = ({ handleClick }) => (
+  const NavLinks = () => (
     <div className={` flex flex-row  `}>
       {links.map((item) => {
         return (
@@ -37,7 +37,6 @@ const NavBar = () => {
             key={item.name}
             to={item.to}
             className={`flex flex-row  items-center text-white  mx-8 text-lg tracking-wider font-medium`}
-            onClick={() => handleClick && handleClick()}
           >
             <div>{item.name}</div>
           </NavLink>
